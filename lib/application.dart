@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:memory_game/matcher/bloc/matcher_bloc.dart';
 import 'package:memory_game/matcher/features/matcher.dart';
+import 'package:memory_game/range/bloc/range_bloc.dart';
 import 'package:memory_game/shared/features/home_page.dart';
 
 class Application extends StatelessWidget {
@@ -8,12 +11,15 @@ class Application extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Memory Game',
-      theme: loadTheme(),
-      initialRoute: '/',
-      routes: loadRoutes(),
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: loadProviders(), 
+      child: MaterialApp(
+        title: 'Memory Game',
+        theme: loadTheme(),
+        initialRoute: '/',
+        routes: loadRoutes(),
+        debugShowCheckedModeBanner: false,
+      )
     );
   }
 
@@ -34,5 +40,12 @@ class Application extends StatelessWidget {
         )
       )
     );
+  }
+
+  List<BlocProvider> loadProviders() {
+    return [
+      BlocProvider<MatcherBloc>(create: (_) => MatcherBloc()),
+      BlocProvider<RangeBloc>(create: (_) => RangeBloc())
+    ];
   }
 }
