@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memory_game/shared/features/HomePage.dart';
+import 'package:memory_game/shared/features/home_page.dart';
 
 class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
