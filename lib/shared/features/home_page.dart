@@ -13,22 +13,48 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Home Page'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: ElevatedButton(child: const Text('Matcher'), onPressed: () {
-              context.read<MatcherBloc>().add(InitialiseMatcherGameEvent());
-              Navigator.of(context).pushNamed('/matcher');
-            }),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: ElevatedButton(child: const Text('Range'), onPressed: () {
-              context.read<RangeBloc>().add(InitialiseRangeGameEvent());
-              Navigator.of(context).pushNamed('/range');
-            }),
-          )
-        ],
+      ),
+      body: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: ElevatedButtonTheme(
+                data: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(100),
+                    textStyle: const TextStyle(
+                      fontSize: 60
+                    )
+                  )
+                ),
+                child: ElevatedButton(child: const Text('Matcher'), onPressed: () {
+                  context.read<MatcherBloc>().add(InitialiseMatcherGameEvent());
+                  Navigator.of(context).pushNamed('/matcher');
+                }),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: ElevatedButtonTheme(
+                data: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(100),
+                    textStyle: const TextStyle(
+                      fontSize: 60
+                    )
+                  )
+                ),
+                child: ElevatedButton(child: const Text('Range'), onPressed: () {
+                  context.read<RangeBloc>().add(InitialiseRangeGameEvent());
+                  Navigator.of(context).pushNamed('/range');
+                })
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
