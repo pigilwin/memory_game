@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memory_game/matcher/features/matcher.dart';
 import 'package:memory_game/shared/features/home_page.dart';
 
 class Application extends StatelessWidget {
@@ -19,6 +20,7 @@ class Application extends StatelessWidget {
   Map<String, Widget Function(BuildContext)> loadRoutes() {
     return {
       '/': (BuildContext context) => const HomePage(),
+      '/matcher': (BuildContext context) => const Matcher()
     };
   }
 
