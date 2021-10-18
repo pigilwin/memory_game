@@ -6,7 +6,7 @@ part 'range_state.dart';
 
 class RangeBloc extends Bloc<RangeEvent, RangeState> {
   RangeBloc() : super(RangeInitial()) {
-    on<RangeEvent>((event, emit) {
+    on<InitialiseRangeGameEvent>((event, emit) {
       
     });
   }

@@ -6,7 +6,7 @@ part 'matcher_state.dart';
 
 class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
   MatcherBloc() : super(MatcherInitial()) {
-    on<MatcherEvent>((event, emit) {
+    on<InitialiseMatcherGameEvent>((event, emit) {
       
     });
   }

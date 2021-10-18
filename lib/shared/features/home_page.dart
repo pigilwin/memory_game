@@ -15,28 +15,36 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: const Text('Home Page'),
       ),
-      body: Center(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: HomePageButton(buttonText: 'Matcher', onPressed: () {
-                context.read<MatcherBloc>().add(InitialiseMatcherGameEvent());
-                Navigator.of(context).pushNamed('/matcher');
-              }),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: HomePageButton(buttonText: 'Range', onPressed: () {
-                context.read<RangeBloc>().add(InitialiseRangeGameEvent());
-                Navigator.of(context).pushNamed('/range');
-              }),
-            )
-          ],
-        ),
-      ),
+      body: BlocBuilder<RangeBloc, RangeState>(
+        builder: (_, state) {
+          return BlocBuilder<MatcherBloc, MatcherState>(
+            builder: (_, state) {
+              return Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: HomePageButton(buttonText: 'Matcher', onPressed: () {
+                        context.read<MatcherBloc>().add(InitialiseMatcherGameEvent());
+                        Navigator.of(context).pushNamed('/matcher');
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: HomePageButton(buttonText: 'Range', onPressed: () {
+                        context.read<RangeBloc>().add(InitialiseRangeGameEvent());
+                        Navigator.of(context).pushNamed('/range');
+                      }),
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      )
     );
   }
 }
