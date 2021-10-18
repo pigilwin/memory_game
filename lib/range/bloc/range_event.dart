@@ -6,3 +6,5 @@ abstract class RangeEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class InitialiseRangeGameEvent extends RangeEvent {}

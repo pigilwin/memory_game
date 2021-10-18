@@ -6,3 +6,5 @@ abstract class MatcherEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class InitialiseMatcherGameEvent extends MatcherEvent {}

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:memory_game/matcher/bloc/matcher_bloc.dart';
-import 'package:memory_game/matcher/features/matcher.dart';
-import 'package:memory_game/range/bloc/range_bloc.dart';
+import 'package:memory_game/matcher/matcher.dart';
+import 'package:memory_game/range/range.dart';
 import 'package:memory_game/shared/features/home_page.dart';
 
 class Application extends StatelessWidget {
@@ -26,7 +25,7 @@ class Application extends StatelessWidget {
   Map<String, Widget Function(BuildContext)> loadRoutes() {
     return {
       '/': (BuildContext context) => const HomePage(),
-      '/matcher': (BuildContext context) => const Matcher()
+      '/matcher': (BuildContext context) => const MatcherBoard()
     };
   }
 
