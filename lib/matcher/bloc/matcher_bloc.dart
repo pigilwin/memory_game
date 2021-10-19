@@ -10,6 +10,29 @@ part 'matcher_event.dart';
 part 'matcher_state.dart';
 
 class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
+  
+  List<MaterialColor> colors = [
+    Colors.red,
+    Colors.teal,
+    Colors.yellow,
+    Colors.purple,
+    Colors.pink,
+    Colors.orange,
+    Colors.lime,
+    Colors.lightGreen,
+    Colors.lightBlue,
+    Colors.indigo,
+    Colors.grey,
+    Colors.green,
+    Colors.deepPurple,
+    Colors.deepOrange,
+    Colors.cyan,
+    Colors.brown,
+    Colors.blueGrey,
+    Colors.blue,
+    Colors.amber
+  ];
+  
   MatcherBloc() : super(MatcherInitial()) {
     on<InitialiseMatcherGameEvent>((event, emit) {
       
@@ -55,11 +78,41 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
       default:
         throw Exception('Failed to load columns and rows');
     }
+
+    final colorsWithShade = <Color>[];
+    for (MaterialColor color in colors){
+      colorsWithShade.add(color);
+      colorsWithShade.add(color.shade900);
+    }
+
+    ///
+    /// Each of the squares is only going to contain half the amount of colors as 
+    /// there are cell count 
+    ///
+    final requiredColors = (rows * columns) ~/ 2;
+    
+    ///
+    /// From the current colors that we support take the amount of colors we require
+    /// and build a new list
+    ///
+    final currentColors = List<Color>.from(colorsWithShade).take(requiredColors).toList();
+
+    ///
+    /// Instead of figuring out some complex logic to store currently used colors
+    /// we can add the list back in on itself
+    ///
+    final duplicatedColors = [currentColors, currentColors].expand((element) => element).toList();
+    
+    ///
+    /// Shuffle the list of the colors to create a some what random
+    /// colors generation
+    ///
+    duplicatedColors.shuffle();
     
     final items = <MatcherItem>[];
     for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
       for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
-        items.add(MatcherItem(color: Colors.red, found: false, point: Point(rowIndex, columnIndex)));
+        items.add(MatcherItem(color: duplicatedColors.removeLast(), found: false, point: Point(rowIndex, columnIndex)));
       }
     }
 
