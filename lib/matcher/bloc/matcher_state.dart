@@ -10,6 +10,14 @@ const difficultyMatchers = {
   Difficulty.veryHard: 'Very Hard'
 };
 
+const difficultyLives = {
+  Difficulty.veryEasy: 2,
+  Difficulty.easy: 3,
+  Difficulty.medium: 4,
+  Difficulty.hard: 3,
+  Difficulty.veryHard: 3
+};
+
 abstract class MatcherState extends Equatable {
   const MatcherState();
   
@@ -25,12 +33,16 @@ class ActiveGame extends MatcherState {
 
   final List<MatcherItem> items;
   final Difficulty difficulty;
+  final int lives;
+  final int maxLives;
    
   const ActiveGame({
     required this.difficulty,
-    required this.items
+    required this.items,
+    required this.lives,
+    required this.maxLives
   });
 
   @override
-  List<Object> get props => [items, difficulty];
+  List<Object> get props => [items, difficulty, lives, maxLives];
 }

@@ -17,7 +17,14 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
         items.add(const MatcherItem(color: Colors.red, found: false, x: 0, y: 0));
       }
 
-      emit(ActiveGame(difficulty: event.difficulty, items: items));
+      final maxLives = difficultyLives[event.difficulty]!;
+
+      emit(ActiveGame(
+        difficulty: event.difficulty, 
+        items: items,
+        maxLives: maxLives,
+        lives: maxLives
+      ));
     });
   }
 }

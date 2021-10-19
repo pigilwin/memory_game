@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memory_game/matcher/bloc/matcher_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:memory_game/matcher/components/life_display.dart';
 
 class MatcherBoard extends StatefulWidget {
   const MatcherBoard({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class MatcherBoardState extends State<MatcherBoard> {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                generateControls(state.difficulty),
+                generateControls(state),
                 generateGrid(state)
               ],
             ),
@@ -44,7 +45,7 @@ class MatcherBoardState extends State<MatcherBoard> {
     );
   }
 
-  Widget generateControls(Difficulty difficulty)
+  Widget generateControls(ActiveGame state)
   {
     final dropDownMenuItems = <DropdownMenuItem<Difficulty>>[];
     difficultyMatchers.forEach((dificulty, dificultyText) {
@@ -54,15 +55,27 @@ class MatcherBoardState extends State<MatcherBoard> {
       ));
     });
 
-    return DropdownButton(
-      items: dropDownMenuItems,
-      value: difficulty,
-      onChanged: (Difficulty? v) {
-        if (v == null) {
-          return;
-        }
-        matcherBloc.add(InitialiseMatcherGameEvent(v));
-      },
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        DropdownButton(
+          items: dropDownMenuItems,
+          value: state.difficulty,
+          onChanged: (Difficulty? v) {
+            if (v == null) {
+              return;
+            }
+            matcherBloc.add(InitialiseMatcherGameEvent(v));
+          },
+        ),
+        LifeDisplay(
+          key: const Key('life-display'),
+          lifeCount: state.lives,
+          lives: state.maxLives, 
+          size: 40
+        )
+      ],
     );
   }
 
