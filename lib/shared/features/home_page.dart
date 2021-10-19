@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: HomePageButton(buttonText: 'Matcher', onPressed: () {
-                        context.read<MatcherBloc>().add(InitialiseMatcherGameEvent());
+                        context.read<MatcherBloc>().add(const InitialiseMatcherGameEvent(Difficulty.easy));
                         Navigator.of(context).pushNamed('/matcher');
                       }),
                     ),

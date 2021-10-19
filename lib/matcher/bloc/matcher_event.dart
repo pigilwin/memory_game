@@ -7,4 +7,10 @@ abstract class MatcherEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class InitialiseMatcherGameEvent extends MatcherEvent {}
+class InitialiseMatcherGameEvent extends MatcherEvent {
+
+  final Difficulty difficulty;
+
+  const InitialiseMatcherGameEvent(this.difficulty);
+
+}

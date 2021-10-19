@@ -12,9 +12,9 @@ class HomePageButton extends StatelessWidget {
     return ElevatedButtonTheme(
       data: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(100),
+          padding: const EdgeInsets.all(50),
           textStyle: const TextStyle(
-            fontSize: 60
+            fontSize: 20
           )
         )
       ),
