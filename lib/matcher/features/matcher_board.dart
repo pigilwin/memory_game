@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:memory_game/matcher/bloc/matcher_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +37,9 @@ class MatcherBoardState extends State<MatcherBoard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 generateControls(state),
-                generateGrid(state)
+                Expanded(
+                  child: generateGrid(state),
+                )
               ],
             ),
           );
@@ -81,7 +85,28 @@ class MatcherBoardState extends State<MatcherBoard> {
 
   Widget generateGrid(ActiveGame activeGame)
   {
-    return Table();
+    final matcher = activeGame.matcherTable;
+    final rows = <TableRow>[];
+    for (int rowIndex = 0; rowIndex < matcher.rows; rowIndex++) {
+      final tableColumns = <TableCell>[];
+      for (int columnIndex = 0; columnIndex < matcher.columns; columnIndex++) {
+        
+        final item = matcher.items.firstWhere((element) => element.point == Point(rowIndex, columnIndex));
+
+        tableColumns.add(TableCell(
+          child: Container(
+            margin: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              color: item.color
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+            child: Container(),
+          ),
+        ));
+      }
+      rows.add(TableRow(children: tableColumns));
+    }
+    return Table(children: rows);
   }
 
   Widget genericLoadingPage() {

@@ -31,18 +31,18 @@ class MatcherLoading extends MatcherState {}
 
 class ActiveGame extends MatcherState {
 
-  final List<MatcherItem> items;
+  final MatcherTable matcherTable;
   final Difficulty difficulty;
   final int lives;
   final int maxLives;
    
   const ActiveGame({
     required this.difficulty,
-    required this.items,
+    required this.matcherTable,
     required this.lives,
     required this.maxLives
   });
 
   @override
-  List<Object> get props => [items, difficulty, lives, maxLives];
+  List<Object> get props => [matcherTable, difficulty, lives, maxLives];
 }
