@@ -11,11 +11,11 @@ const difficultyMatchers = {
 };
 
 const difficultyLives = {
-  Difficulty.veryEasy: 2,
+  Difficulty.veryEasy: 1,
   Difficulty.easy: 3,
   Difficulty.medium: 4,
-  Difficulty.hard: 3,
-  Difficulty.veryHard: 3
+  Difficulty.hard: 5,
+  Difficulty.veryHard: 6
 };
 
 abstract class MatcherState extends Equatable {
