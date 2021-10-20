@@ -8,9 +8,12 @@ abstract class MatcherEvent extends Equatable {
 }
 
 class InitialiseMatcherGameEvent extends MatcherEvent {
-
   final Difficulty difficulty;
-
   const InitialiseMatcherGameEvent(this.difficulty);
+}
 
+class CheckPointsEvent extends MatcherEvent {
+  final Point<int> one;
+  final Point<int> two;
+  const CheckPointsEvent(this.one, this.two);
 }

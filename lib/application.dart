@@ -37,7 +37,8 @@ class Application extends StatelessWidget {
           primary: Colors.red,
           padding: const EdgeInsets.all(10)
         )
-      )
+      ),
+      scaffoldBackgroundColor: Colors.white
     );
   }
 

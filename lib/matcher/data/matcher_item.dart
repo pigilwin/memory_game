@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class MatcherItem extends Equatable {
   final Color color;
-  final Point point;
+  final Point<int> point;
   final bool found;
 
   const MatcherItem({
