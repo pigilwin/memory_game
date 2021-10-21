@@ -3,8 +3,9 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:memory_game/matcher/bloc/difficulty/abstract_difficulty.dart';
+import 'package:memory_game/matcher/bloc/difficulty/difficulty_loader.dart';
 import 'package:memory_game/matcher/data/matcher_item.dart';
-import 'package:memory_game/matcher/data/matcher_table.dart';
 
 part 'matcher_event.dart';
 part 'matcher_state.dart';
@@ -38,28 +39,28 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
       
       emit(MatcherLoading());
 
-      final maxLives = difficultyLives[event.difficulty]!;
+      final difficulties = DifficultyLoader.difficulties;
+
+      final difficulty = difficulties[event.difficultyIndex];
 
       emit(ActiveGame(
-        difficulty: event.difficulty, 
-        matcherTable: generateTable(event.difficulty),
-        maxLives: maxLives,
-        lives: maxLives
+        difficulty: difficulty, 
+        items: generateTable(difficulty),
+        lives: difficulty.maxLives
       ));
     });
 
     on<CheckPointsEvent>((event, emit) {
       final activeGame = (state as ActiveGame);
 
-      final itemOne = activeGame.matcherTable.items.firstWhere((element) => element.point == event.one);
-      final itemTwo = activeGame.matcherTable.items.firstWhere((element) => element.point == event.two);
+      final itemOne = activeGame.items.firstWhere((element) => element.point == event.one);
+      final itemTwo = activeGame.items.firstWhere((element) => element.point == event.two);
 
       if (itemOne.color != itemTwo.color) {
 
         emit(ActiveGame(
           difficulty: activeGame.difficulty,
-          maxLives: activeGame.maxLives,
-          matcherTable: activeGame.matcherTable,
+          items: activeGame.items,
           lives: activeGame.lives - 1
         ));
         return;
@@ -67,43 +68,14 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
 
       emit(ActiveGame(
         difficulty: activeGame.difficulty,
-        maxLives: activeGame.maxLives,
         lives: activeGame.lives,
-        matcherTable: MatcherTable.markAsFound(activeGame.matcherTable, [event.one, event.two])
+        items: MatcherItem.markAsFound(activeGame.items, [event.one, event.two])
       ));
     });
   }
 
-  MatcherTable generateTable(Difficulty difficulty) {
+  List<MatcherItem> generateTable(AbstractDifficulty difficulty) {
     
-    int columns = 0;
-    int rows = 0;
-
-    switch (difficulty) {
-      case Difficulty.veryEasy:
-        columns = 3;
-        rows = 2;
-        break;
-      case Difficulty.easy:
-        columns = 3;
-        rows = 4;
-        break;
-      case Difficulty.medium:
-        columns = 5;
-        rows = 4;
-        break;
-      case Difficulty.hard:
-        columns = 6;
-        rows = 6;
-        break;
-      case Difficulty.veryHard:
-        columns = 8;
-        rows = 6;
-        break;
-      default:
-        throw Exception('Failed to load columns and rows');
-    }
-
     final colorsWithShade = <Color>[];
     for (MaterialColor color in colors){
       colorsWithShade.add(color);
@@ -114,7 +86,7 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
     /// Each of the squares is only going to contain half the amount of colors as 
     /// there are cell count 
     ///
-    final requiredColors = (rows * columns) ~/ 2;
+    final requiredColors = (difficulty.rows * difficulty.columns) ~/ 2;
     
     ///
     /// From the current colors that we support take the amount of colors we require
@@ -135,16 +107,11 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
     duplicatedColors.shuffle();
     
     final items = <MatcherItem>[];
-    for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
-      for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
+    for (int rowIndex = 0; rowIndex < difficulty.rows; rowIndex++) {
+      for (int columnIndex = 0; columnIndex < difficulty.columns; columnIndex++) {
         items.add(MatcherItem(color: duplicatedColors.removeLast(), found: false, point: Point(rowIndex, columnIndex)));
       }
     }
-
-    return MatcherTable(
-      items: items,
-      columns: columns,
-      rows: rows
-    );
+    return items;
   }
 }

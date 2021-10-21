@@ -8,6 +8,8 @@ class HomePage extends StatelessWidget {
 
   const HomePage({Key? key}): super(key: key);
 
+  static const int initialDifficulty = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class HomePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: HomePageButton(buttonText: 'Matcher', onPressed: () {
-                        context.read<MatcherBloc>().add(const InitialiseMatcherGameEvent(Difficulty.easy));
+                        context.read<MatcherBloc>().add(const InitialiseMatcherGameEvent(initialDifficulty));
                         Navigator.of(context).pushNamed('/matcher');
                       }),
                     ),

@@ -7,7 +7,7 @@ import 'package:memory_game/matcher/bloc/difficulty/very_hard_difficulty.dart';
 
 class DifficultyLoader {
 
-  List<AbstractDifficulty> difficulties = [
+  static final List<AbstractDifficulty> difficulties = [
     VeryEasyDifficulty(),
     EasyDifficulty(),
     MediumDifficulty(),

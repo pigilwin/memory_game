@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:memory_game/matcher/bloc/matcher_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:memory_game/matcher/bloc/matcher_bloc.dart';
 import 'package:memory_game/matcher/bloc/matcher_selected_notifier.dart';
+import 'package:memory_game/matcher/components/difficulty_selector.dart';
 import 'package:memory_game/matcher/components/life_display.dart';
 import 'package:memory_game/matcher/components/matcher_cell.dart';
 import 'package:memory_game/matcher/data/matcher_item.dart';
@@ -55,7 +57,7 @@ class MatcherBoardState extends State<MatcherBoard> {
           return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: Text("Matcher - ${difficultyMatchers[state.difficulty]}"),
+              title: Text("Matcher - ${state.difficulty.displayText}"),
             ),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,35 +76,23 @@ class MatcherBoardState extends State<MatcherBoard> {
   }
 
   Widget generateControls(ActiveGame state) {
-    final dropDownMenuItems = <DropdownMenuItem<Difficulty>>[];
-    difficultyMatchers.forEach((dificulty, dificultyText) {
-      dropDownMenuItems.add(DropdownMenuItem<Difficulty>(
-        child: Text(dificultyText),
-        value: dificulty,
-      ));
-    });
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        DropdownButton(
-          items: dropDownMenuItems,
-          value: state.difficulty,
-          onChanged: (Difficulty? v) {
-            if (v == null) {
-              return;
-            }
+        DifficultySelector(
+          onChange: (int index) {
             setState(() {
               resetShowing();
-              matcherBloc.add(InitialiseMatcherGameEvent(v));
+              matcherBloc.add(InitialiseMatcherGameEvent(index));
             });
           },
+          difficulty: state.difficulty,
         ),
         LifeDisplay(
           key: const Key('life-display'),
           lifeCount: state.lives,
-          lives: state.maxLives, 
+          lives: state.difficulty.maxLives, 
           size: 40
         )
       ],
@@ -110,13 +100,12 @@ class MatcherBoardState extends State<MatcherBoard> {
   }
 
   Widget generateGrid(ActiveGame activeGame) {
-    final matcher = activeGame.matcherTable;
     final rows = <TableRow>[];
-    for (int rowIndex = 0; rowIndex < matcher.rows; rowIndex++) {
+    for (int rowIndex = 0; rowIndex < activeGame.difficulty.rows; rowIndex++) {
       final tableColumns = <TableCell>[];
-      for (int columnIndex = 0; columnIndex < matcher.columns; columnIndex++) {
+      for (int columnIndex = 0; columnIndex < activeGame.difficulty.columns; columnIndex++) {
         
-        final item = matcher.items.firstWhere((element) => element.point == Point(rowIndex, columnIndex));
+        final item = activeGame.items.firstWhere((element) => element.point == Point(rowIndex, columnIndex));
 
         tableColumns.add(TableCell(
           child: MatcherCell(
