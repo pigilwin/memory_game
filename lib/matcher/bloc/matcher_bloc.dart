@@ -63,7 +63,7 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
 
         /// If we have no lives then fail the game
         if (newLivesCount == 0) {
-          emit(const FailedGame());
+          emit(FailedGame(difficulty: activeGame.difficulty));
           return;
         }
 

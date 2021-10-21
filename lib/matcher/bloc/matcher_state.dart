@@ -31,5 +31,9 @@ class ActiveGame extends MatcherState {
 }
 
 class FailedGame extends MatcherState {
-  const FailedGame();
+  final AbstractDifficulty difficulty;
+  
+  const FailedGame({
+    required this.difficulty
+  });
 }

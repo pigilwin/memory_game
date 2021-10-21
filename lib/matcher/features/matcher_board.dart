@@ -56,6 +56,7 @@ class MatcherBoardState extends State<MatcherBoard> {
     return BlocBuilder<MatcherBloc, MatcherState>(
       bloc: matcherBloc,
       builder: (_, state) {
+        /// If the state is currently active
         if (state is ActiveGame) {
           return Scaffold(
             appBar: AppBar(
@@ -73,6 +74,28 @@ class MatcherBoardState extends State<MatcherBoard> {
             ),
           );
         }
+
+        if (state is FailedGame) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text("Matcher Failed"),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Select a new game'),
+                  DifficultySelector(
+                    onChange: loadGameStateFromIndex,
+                    difficulty: state.difficulty,
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+
         return genericLoadingPage();
       },
     );
@@ -84,12 +107,7 @@ class MatcherBoardState extends State<MatcherBoard> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         DifficultySelector(
-          onChange: (int index) {
-            setState(() {
-              resetShowing();
-              matcherBloc.add(InitialiseMatcherGameEvent(index));
-            });
-          },
+          onChange: loadGameStateFromIndex,
           difficulty: state.difficulty,
         ),
         LifeDisplay(
@@ -161,9 +179,18 @@ class MatcherBoardState extends State<MatcherBoard> {
     });
 
     Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        showing = false;
-      });
+      if (mounted){
+        setState(() {
+          showing = false;
+        });
+        }
+    });
+  }
+
+  void loadGameStateFromIndex(int index) {
+    setState(() {
+      resetShowing();
+      matcherBloc.add(InitialiseMatcherGameEvent(index));
     });
   }
 }
