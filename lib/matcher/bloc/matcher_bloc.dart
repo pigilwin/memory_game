@@ -75,11 +75,19 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
         return;
       }
 
+      final items = MatcherItem.markAsFound(activeGame.items, [event.one, event.two]);
+
+      /// If all items have been found then
+      if (items.where((item) => !item.found).isEmpty) {
+        emit(CompletedGame(difficulty: activeGame.difficulty, lives: activeGame.lives));
+        return;
+      }
+
       /// Reload the game screen with the two points hidden
       emit(ActiveGame(
         difficulty: activeGame.difficulty,
         lives: activeGame.lives,
-        items: MatcherItem.markAsFound(activeGame.items, [event.one, event.two])
+        items: items
       ));
     });
   }

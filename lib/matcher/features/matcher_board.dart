@@ -96,6 +96,28 @@ class MatcherBoardState extends State<MatcherBoard> {
           );
         }
 
+        if (state is CompletedGame) {
+          return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: const Text("Matcher Completed"),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Lives remaining with ${state.lives}"),
+                  const Text('Select a new game'),
+                  DifficultySelector(
+                    onChange: loadGameStateFromIndex,
+                    difficulty: state.difficulty,
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+
         return genericLoadingPage();
       },
     );

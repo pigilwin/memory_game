@@ -32,8 +32,28 @@ class ActiveGame extends MatcherState {
 
 class FailedGame extends MatcherState {
   final AbstractDifficulty difficulty;
-  
   const FailedGame({
     required this.difficulty
   });
+
+  @override
+  List<Object> get props => [
+    difficulty, 
+  ];
+}
+
+class CompletedGame extends MatcherState {
+  final AbstractDifficulty difficulty;
+  final int lives;
+
+  const CompletedGame({
+    required this.difficulty,
+    required this.lives
+  });
+
+  @override
+  List<Object> get props => [
+    difficulty, 
+    lives
+  ];
 }
