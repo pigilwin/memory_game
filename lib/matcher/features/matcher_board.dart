@@ -37,12 +37,15 @@ class MatcherBoardState extends State<MatcherBoard> {
         return;
       }
 
-      final selectedOne = matcherSelectedNotifier.selected.first;
-      final selectedTwo = matcherSelectedNotifier.selected.last;
+      Future.delayed(const Duration(milliseconds: 140), () {
 
-      matcherSelectedNotifier.selected.clear();
+        final selectedOne = matcherSelectedNotifier.selected.first;
+        final selectedTwo = matcherSelectedNotifier.selected.last;
 
-      matcherBloc.add(CheckPointsEvent(selectedOne, selectedTwo));
+        matcherSelectedNotifier.selected.clear();
+
+        matcherBloc.add(CheckPointsEvent(selectedOne, selectedTwo));
+      });
     });
 
     super.initState();
