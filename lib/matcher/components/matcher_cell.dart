@@ -21,18 +21,16 @@ class MatcherCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    if (showing == CellState.hidden) {
+      return createSquare(context);
+    }
+    
     return GestureDetector(
       onTap: () {
         callback();
       },
-      child: Container(
-        margin: const EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          color: fetchColor(context)
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-        child: Container(),
-      ),
+      child: createSquare(context),
     );
   }
 
@@ -47,5 +45,16 @@ class MatcherCell extends StatelessWidget {
     }
 
     return Colors.black;
+  }
+
+  Widget createSquare(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: fetchColor(context)
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+      child: Container(),
+    );
   }
 }
