@@ -28,7 +28,7 @@ class MatcherCell extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(3),
         decoration: BoxDecoration(
-          color: fetchColor()
+          color: fetchColor(context)
         ),
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
         child: Container(),
@@ -36,14 +36,14 @@ class MatcherCell extends StatelessWidget {
     );
   }
 
-  Color fetchColor() {
+  Color fetchColor(BuildContext context) {
     
     if (showing == CellState.showing) {
       return matcherItem.color;
     }
 
     if (showing == CellState.hidden) {
-      return Colors.white;
+      return Theme.of(context).scaffoldBackgroundColor;
     }
 
     return Colors.black;

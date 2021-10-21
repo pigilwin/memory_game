@@ -47,6 +47,31 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
         lives: maxLives
       ));
     });
+
+    on<CheckPointsEvent>((event, emit) {
+      final activeGame = (state as ActiveGame);
+
+      final itemOne = activeGame.matcherTable.items.firstWhere((element) => element.point == event.one);
+      final itemTwo = activeGame.matcherTable.items.firstWhere((element) => element.point == event.two);
+
+      if (itemOne.color != itemTwo.color) {
+
+        emit(ActiveGame(
+          difficulty: activeGame.difficulty,
+          maxLives: activeGame.maxLives,
+          matcherTable: activeGame.matcherTable,
+          lives: activeGame.lives - 1
+        ));
+        return;
+      }
+
+      emit(ActiveGame(
+        difficulty: activeGame.difficulty,
+        maxLives: activeGame.maxLives,
+        lives: activeGame.lives,
+        matcherTable: MatcherTable.markAsFound(activeGame.matcherTable, [event.one, event.two])
+      ));
+    });
   }
 
   MatcherTable generateTable(Difficulty difficulty) {
