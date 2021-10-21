@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:memory_game/matcher/bloc/difficulty/abstract_difficulty.dart';
-import 'package:memory_game/matcher/bloc/difficulty/difficulty_loader.dart';
+import 'package:memory_game/matcher/data/difficulty/abstract_difficulty.dart';
+import 'package:memory_game/matcher/data/difficulty/difficulty_loader.dart';
 
 class DifficultySelector extends StatelessWidget {
   

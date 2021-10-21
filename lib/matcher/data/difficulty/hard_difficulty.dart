@@ -1,4 +1,4 @@
-import 'package:memory_game/matcher/bloc/difficulty/abstract_difficulty.dart';
+import 'package:memory_game/matcher/data/difficulty/abstract_difficulty.dart';
 
 class HardDifficulty extends AbstractDifficulty {
   HardDifficulty() : super(

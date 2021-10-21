@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:memory_game/matcher/bloc/difficulty/abstract_difficulty.dart';
-import 'package:memory_game/matcher/bloc/difficulty/difficulty_loader.dart';
+import 'package:memory_game/matcher/data/difficulty/abstract_difficulty.dart';
+import 'package:memory_game/matcher/data/difficulty/difficulty_loader.dart';
 import 'package:memory_game/matcher/data/matcher_item.dart';
 
 part 'matcher_event.dart';
