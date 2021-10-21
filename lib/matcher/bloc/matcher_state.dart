@@ -29,3 +29,7 @@ class ActiveGame extends MatcherState {
     lives
   ];
 }
+
+class FailedGame extends MatcherState {
+  const FailedGame();
+}

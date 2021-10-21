@@ -56,16 +56,26 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
       final itemOne = activeGame.items.firstWhere((element) => element.point == event.one);
       final itemTwo = activeGame.items.firstWhere((element) => element.point == event.two);
 
+      /// If the colors don't match then check what needs to be done
       if (itemOne.color != itemTwo.color) {
+
+        final newLivesCount = activeGame.lives - 1;
+
+        /// If we have no lives then fail the game
+        if (newLivesCount == 0) {
+          emit(const FailedGame());
+          return;
+        }
 
         emit(ActiveGame(
           difficulty: activeGame.difficulty,
           items: activeGame.items,
-          lives: activeGame.lives - 1
+          lives: newLivesCount
         ));
         return;
       }
 
+      /// Reload the game screen with the two points hidden
       emit(ActiveGame(
         difficulty: activeGame.difficulty,
         lives: activeGame.lives,
