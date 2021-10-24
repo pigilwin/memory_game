@@ -15,11 +15,13 @@ class ActiveGame extends MatcherState {
   final List<MatcherItem> items;
   final AbstractDifficulty difficulty;
   final int lives;
+  final bool showing;
    
   const ActiveGame({
     required this.difficulty,
     required this.items,
-    required this.lives
+    required this.lives,
+    required this.showing
   });
 
   @override

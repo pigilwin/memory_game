@@ -19,17 +19,13 @@ class MatcherBoard extends StatefulWidget {
 }
 
 class MatcherBoardState extends State<MatcherBoard> {
-  
-  bool showing = true;
-  List<Point<int>> selected = [];
-  MatcherSelectedNotifier matcherSelectedNotifier = MatcherSelectedNotifier();
 
-  late MatcherBloc matcherBloc;
+  final MatcherSelectedNotifier matcherSelectedNotifier = MatcherSelectedNotifier();
+  late final MatcherBloc matcherBloc;
 
   @override
   void initState() {
     matcherBloc = context.read<MatcherBloc>();
-    resetShowing();
 
     matcherSelectedNotifier.addListener(() {
       
@@ -153,7 +149,7 @@ class MatcherBoardState extends State<MatcherBoard> {
         tableColumns.add(TableCell(
           child: MatcherCell(
             matcherItem: item,
-            showing: calculateCellState(item),
+            showing: calculateCellState(item, activeGame.showing),
             callback: () {
               setState(() {
                 matcherSelectedNotifier.add(item.point);
@@ -167,7 +163,7 @@ class MatcherBoardState extends State<MatcherBoard> {
     return Table(children: rows);
   }
 
-  CellState calculateCellState(MatcherItem item) {
+  CellState calculateCellState(MatcherItem item, bool showing) {
     if (matcherSelectedNotifier.selected.contains(item.point)) {
       return CellState.showing;
     }
@@ -195,24 +191,7 @@ class MatcherBoardState extends State<MatcherBoard> {
     );
   }
 
-  void resetShowing() async {
-    setState(() {
-      showing = true;
-    });
-
-    Future.delayed(const Duration(seconds: 5), () {
-      if (mounted){
-        setState(() {
-          showing = false;
-        });
-        }
-    });
-  }
-
   void loadGameStateFromIndex(int index) {
-    setState(() {
-      resetShowing();
-      matcherBloc.add(InitialiseMatcherGameEvent(index));
-    });
+    matcherBloc.add(InitialiseMatcherGameEvent(index));
   }
 }

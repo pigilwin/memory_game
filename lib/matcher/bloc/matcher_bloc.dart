@@ -40,14 +40,24 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
       emit(MatcherLoading());
 
       final difficulties = DifficultyLoader.difficulties;
-
       final difficulty = difficulties[event.difficultyIndex];
+      final items = generateTable(difficulty);
 
       emit(ActiveGame(
         difficulty: difficulty, 
-        items: generateTable(difficulty),
-        lives: difficulty.maxLives
+        items: items,
+        lives: difficulty.maxLives,
+        showing: false
       ));
+
+      Future.delayed(const Duration(seconds: 5), () {
+        emit(ActiveGame(
+          difficulty: difficulty, 
+          items: items,
+          lives: difficulty.maxLives,
+          showing: true
+        ));
+      });
     });
 
     on<CheckPointsEvent>((event, emit) {
@@ -70,7 +80,8 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
         emit(ActiveGame(
           difficulty: activeGame.difficulty,
           items: activeGame.items,
-          lives: newLivesCount
+          lives: newLivesCount,
+          showing: false
         ));
         return;
       }
@@ -87,7 +98,8 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
       emit(ActiveGame(
         difficulty: activeGame.difficulty,
         lives: activeGame.lives,
-        items: items
+        items: items, 
+        showing: false
       ));
     });
   }
