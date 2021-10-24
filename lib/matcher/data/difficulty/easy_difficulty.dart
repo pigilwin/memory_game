@@ -5,7 +5,7 @@ class EasyDifficulty extends AbstractDifficulty {
     index: 1, 
     displayText: 'Easy', 
     maxLives: 3,
-    columns: 3,
-    rows: 4
+    amount: 8,
+    crossAxisCount: 4
   ); 
 }

@@ -1,12 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class MatcherSelectedNotifier with ChangeNotifier {
 
-  List<Point<int>> selected = [];
+  List<int> selected = [];
 
-  void add(Point<int> first) {
+  void add(int first) {
     selected.add(first);
     notifyListeners(); 
   }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -139,32 +138,31 @@ class MatcherBoardState extends State<MatcherBoard> {
   }
 
   Widget generateGrid(ActiveGame activeGame) {
-    final rows = <TableRow>[];
-    for (int rowIndex = 0; rowIndex < activeGame.difficulty.rows; rowIndex++) {
-      final tableColumns = <TableCell>[];
-      for (int columnIndex = 0; columnIndex < activeGame.difficulty.columns; columnIndex++) {
-        
-        final item = activeGame.items.firstWhere((element) => element.point == Point(rowIndex, columnIndex));
+    return GridView.builder(
+      itemCount: activeGame.items.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: activeGame.difficulty.crossAxisCount), 
+      itemBuilder: (_, i) {
+        final item = activeGame.items[i];
+        return MatcherCell(
+          matcherItem: item,
+          showing: calculateCellState(item, activeGame.showing),
+          callback: () {
+            // If the same color already exists then move on
+            if (matcherSelectedNotifier.selected.contains(item.index)) {
+              return;
+            }
 
-        tableColumns.add(TableCell(
-          child: MatcherCell(
-            matcherItem: item,
-            showing: calculateCellState(item, activeGame.showing),
-            callback: () {
-              setState(() {
-                matcherSelectedNotifier.add(item.point);
-              });
-            },
-          ),
-        ));
+            setState(() {
+              matcherSelectedNotifier.add(item.index);
+            });
+          },
+        );
       }
-      rows.add(TableRow(children: tableColumns));
-    }
-    return Table(children: rows);
+    );
   }
 
   CellState calculateCellState(MatcherItem item, bool showing) {
-    if (matcherSelectedNotifier.selected.contains(item.point)) {
+    if (matcherSelectedNotifier.selected.contains(item.index)) {
       return CellState.showing;
     }
 

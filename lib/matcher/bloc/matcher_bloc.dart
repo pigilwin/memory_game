@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
 import 'package:memory_game/matcher/data/difficulty/abstract_difficulty.dart';
 import 'package:memory_game/matcher/data/difficulty/difficulty_loader.dart';
 import 'package:memory_game/matcher/data/matcher_item.dart';
@@ -12,7 +11,7 @@ part 'matcher_state.dart';
 
 class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
   
-  List<MaterialColor> colors = [
+  static const List<MaterialColor> colors = [
     Colors.red,
     Colors.teal,
     Colors.yellow,
@@ -35,27 +34,28 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
   ];
   
   MatcherBloc() : super(MatcherInitial()) {
-    on<InitialiseMatcherGameEvent>((event, emit) {
+    on<InitialiseMatcherGameEvent>((event, emit) async {
       
       emit(MatcherLoading());
 
       final difficulties = DifficultyLoader.difficulties;
       final difficulty = difficulties[event.difficultyIndex];
-      final items = generateTable(difficulty);
+      final items = generateItems(difficulty);
 
+      //Emit a brand new active game state
       emit(ActiveGame(
         difficulty: difficulty, 
         items: items,
         lives: difficulty.maxLives,
-        showing: false
+        showing: true
       ));
 
-      Future.delayed(const Duration(seconds: 5), () {
+      await Future.delayed(const Duration(seconds: 5), () {
         emit(ActiveGame(
           difficulty: difficulty, 
           items: items,
           lives: difficulty.maxLives,
-          showing: true
+          showing: false
         ));
       });
     });
@@ -63,8 +63,8 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
     on<CheckPointsEvent>((event, emit) {
       final activeGame = (state as ActiveGame);
 
-      final itemOne = activeGame.items.firstWhere((element) => element.point == event.one);
-      final itemTwo = activeGame.items.firstWhere((element) => element.point == event.two);
+      final itemOne = activeGame.items.firstWhere((element) => element.index == event.one);
+      final itemTwo = activeGame.items.firstWhere((element) => element.index == event.two);
 
       /// If the colors don't match then check what needs to be done
       if (itemOne.color != itemTwo.color) {
@@ -104,10 +104,14 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
     });
   }
 
-  List<MatcherItem> generateTable(AbstractDifficulty difficulty) {
+  List<MatcherItem> generateItems(AbstractDifficulty difficulty) {
     
+    final colorsShuffled = List<MaterialColor>.from(colors);
+    colorsShuffled.shuffle();
+
     final colorsWithShade = <Color>[];
-    for (MaterialColor color in colors){
+    
+    for (MaterialColor color in colorsShuffled){
       colorsWithShade.add(color);
       colorsWithShade.add(color.shade900);
     }
@@ -116,7 +120,7 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
     /// Each of the squares is only going to contain half the amount of colors as 
     /// there are cell count 
     ///
-    final requiredColors = (difficulty.rows * difficulty.columns) ~/ 2;
+    final requiredColors = difficulty.amount ~/ 2;
     
     ///
     /// From the current colors that we support take the amount of colors we require
@@ -137,11 +141,17 @@ class MatcherBloc extends Bloc<MatcherEvent, MatcherState> {
     duplicatedColors.shuffle();
     
     final items = <MatcherItem>[];
-    for (int rowIndex = 0; rowIndex < difficulty.rows; rowIndex++) {
-      for (int columnIndex = 0; columnIndex < difficulty.columns; columnIndex++) {
-        items.add(MatcherItem(color: duplicatedColors.removeLast(), found: false, point: Point(rowIndex, columnIndex)));
-      }
+    var index = 0;
+
+    for (Color color in duplicatedColors) {
+      items.add(MatcherItem(
+        color: color,
+        found: false,
+        index: index
+      ));
+      index++;
     }
+
     return items;
   }
 }

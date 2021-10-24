@@ -3,14 +3,14 @@ abstract class AbstractDifficulty {
   final String displayText;
   final int maxLives;
   final int index;
-  final int rows;
-  final int columns;
+  final int amount;
+  final int crossAxisCount;
 
   AbstractDifficulty({
     required this.index,
     required this.maxLives,
     required this.displayText,
-    required this.columns,
-    required this.rows
+    required this.amount,
+    required this.crossAxisCount
   });
 }

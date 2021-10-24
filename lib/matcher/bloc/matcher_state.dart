@@ -28,7 +28,8 @@ class ActiveGame extends MatcherState {
   List<Object> get props => [
     items, 
     difficulty, 
-    lives
+    lives,
+    showing
   ];
 }
 

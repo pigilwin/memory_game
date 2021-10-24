@@ -13,7 +13,7 @@ class InitialiseMatcherGameEvent extends MatcherEvent {
 }
 
 class CheckPointsEvent extends MatcherEvent {
-  final Point<int> one;
-  final Point<int> two;
+  final int one;
+  final int two;
   const CheckPointsEvent(this.one, this.two);
 }

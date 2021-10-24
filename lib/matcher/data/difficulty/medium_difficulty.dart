@@ -5,7 +5,7 @@ class MediumDifficulty extends AbstractDifficulty {
     index: 2, 
     displayText: 'Medium', 
     maxLives: 4,
-    columns: 5,
-    rows: 4
+    amount: 10,
+    crossAxisCount: 5
   );
 }

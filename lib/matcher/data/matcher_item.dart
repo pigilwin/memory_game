@@ -1,42 +1,38 @@
-import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 class MatcherItem extends Equatable {
   
-  static List<MatcherItem> markAsFound(List<MatcherItem> current, List<Point<int>> foundPoints) {
+  static List<MatcherItem> markAsFound(List<MatcherItem> current, List<int> foundIndexes) {
     
     final items = List<MatcherItem>.from(current);
 
-    for (var point in foundPoints) {
-      var itemForPoint = items.firstWhere((element) => element.point == point);
-
-      items.remove(itemForPoint);
-
-      items.add(MatcherItem(
+    for (var index in foundIndexes) {
+      var itemForPoint = items.firstWhere((element) => element.index == index);
+      items[index] = MatcherItem(
         color: itemForPoint.color,
         found: true,
-        point: itemForPoint.point
-      ));
+        index: index
+      );
     }
 
     return items;
   }
   
   final Color color;
-  final Point<int> point;
+  final int index;
   final bool found;
 
   const MatcherItem({
     required this.color,
     required this.found,
-    required this.point,
+    required this.index,
   });
 
   @override
   List<Object> get props => [
     color,
-    point,
+    index,
     found
   ];
 }
