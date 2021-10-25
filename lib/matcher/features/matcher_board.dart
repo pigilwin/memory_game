@@ -62,6 +62,7 @@ class MatcherBoardState extends State<MatcherBoard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 generateControls(state),
+                SizedBox.fromSize(size: const Size.fromHeight(10),),
                 Expanded(
                   child: generateGrid(state),
                 )
@@ -119,6 +120,11 @@ class MatcherBoardState extends State<MatcherBoard> {
   }
 
   Widget generateControls(ActiveGame state) {
+
+    if (state.showing) {
+      return const SizedBox.shrink();
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
