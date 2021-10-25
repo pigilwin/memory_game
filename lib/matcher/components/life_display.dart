@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LifeDisplay extends StatelessWidget {
   
   const LifeDisplay({
-    required Key key,
+    Key? key,
     required this.lifeCount,
     required this.lives,
     required this.size

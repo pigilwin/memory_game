@@ -5,7 +5,7 @@ class HardDifficulty extends AbstractDifficulty {
     index: 3, 
     displayText: 'Hard', 
     maxLives: 5,
-    amount: 12,
+    amount: 20,
     crossAxisCount: 4
   );
 }

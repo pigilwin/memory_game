@@ -134,7 +134,6 @@ class MatcherBoardState extends State<MatcherBoard> {
           difficulty: state.difficulty,
         ),
         LifeDisplay(
-          key: const Key('life-display'),
           lifeCount: state.lives,
           lives: state.difficulty.maxLives, 
           size: 40
