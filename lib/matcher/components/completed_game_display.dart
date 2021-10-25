@@ -22,7 +22,7 @@ class CompletedGameDisplay extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Lives remaining with ${completedGame.lives}"),
+            Text("Game completed with ${completedGame.lives} lives remaining"),
             const Text('Select a new game'),
             DifficultySelector(
               onChange: (int index) {
