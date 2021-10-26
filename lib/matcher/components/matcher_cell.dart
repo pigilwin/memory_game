@@ -7,7 +7,7 @@ enum CellState {
   ready
 }
 
-class MatcherCell extends StatelessWidget {
+class MatcherCell extends StatefulWidget {
   const MatcherCell({
     Key? key, 
     required this.matcherItem,
@@ -20,15 +20,22 @@ class MatcherCell extends StatelessWidget {
   final VoidCallback callback;
 
   @override
+  _MatcherCellState createState() => _MatcherCellState();
+
+}
+
+class _MatcherCellState extends State<MatcherCell> {
+
+  @override
   Widget build(BuildContext context) {
     
-    if (showing == CellState.hidden) {
+    if (widget.showing == CellState.hidden) {
       return createSquare(context);
     }
     
     return GestureDetector(
       onTap: () {
-        callback();
+        widget.callback();
       },
       child: createSquare(context),
     );
@@ -36,11 +43,11 @@ class MatcherCell extends StatelessWidget {
 
   Color fetchColor(BuildContext context) {
     
-    if (showing == CellState.showing) {
-      return matcherItem.color;
+    if (widget.showing == CellState.showing) {
+      return widget.matcherItem.color;
     }
 
-    if (showing == CellState.hidden) {
+    if (widget.showing == CellState.hidden) {
       return Theme.of(context).scaffoldBackgroundColor;
     }
 
@@ -48,12 +55,13 @@ class MatcherCell extends StatelessWidget {
   }
 
   Widget createSquare(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
       margin: const EdgeInsets.all(3),
       decoration: BoxDecoration(
         color: fetchColor(context),
         borderRadius: BorderRadius.circular(10),
       ),
+      duration: const Duration(milliseconds: 30),
       child: Container(),
     );
   }

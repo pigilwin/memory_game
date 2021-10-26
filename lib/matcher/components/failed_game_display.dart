@@ -26,7 +26,7 @@ class FailedGameDisplay extends StatelessWidget {
             const Text('Select a new game'),
             DifficultySelector(
               onChange: (int index) {
-                context.read().add(InitialiseMatcherGameEvent(index));
+                context.read<MatcherBloc>().add(InitialiseMatcherGameEvent(index));
               },
               difficulty: failedGame.difficulty,
             )
