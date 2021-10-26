@@ -34,8 +34,8 @@ class Application extends StatelessWidget {
       primarySwatch: Colors.lightGreen,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: Colors.red,
-          padding: const EdgeInsets.all(10)
+          primary: Colors.red.shade500,
+          padding: const EdgeInsets.all(30)
         )
       ),
       scaffoldBackgroundColor: Colors.white

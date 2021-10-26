@@ -9,16 +9,6 @@ class HomePageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButtonTheme(
-      data: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(50),
-          textStyle: const TextStyle(
-            fontSize: 20
-          )
-        )
-      ),
-      child: ElevatedButton(child: Text(buttonText), onPressed: onPressed),
-    );
+    return ElevatedButton(child: Text(buttonText), onPressed: onPressed);
   }
 }
