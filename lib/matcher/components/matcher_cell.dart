@@ -51,9 +51,9 @@ class MatcherCell extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(3),
       decoration: BoxDecoration(
-        color: fetchColor(context)
+        color: fetchColor(context),
+        borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
       child: Container(),
     );
   }

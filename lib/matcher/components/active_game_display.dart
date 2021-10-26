@@ -98,7 +98,11 @@ class _ActiveGameDisplayState extends State<ActiveGameDisplay> {
   Widget generateGrid(ActiveGame activeGame) {
     return GridView.builder(
       itemCount: activeGame.items.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: activeGame.difficulty.crossAxisCount), 
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: activeGame.difficulty.crossAxisCount,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5
+      ), 
       itemBuilder: (_, i) {
         final item = activeGame.items[i];
         return MatcherCell(
