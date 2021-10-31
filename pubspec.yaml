@@ -34,6 +34,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^7.3.1
   shared_preferences: ^2.0.8
+  simple_animations: ^4.0.1
 
 dev_dependencies:
   flutter_test:

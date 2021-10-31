@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memory_game/matcher/matcher.dart';
 import 'package:memory_game/range/range.dart';
+import 'package:memory_game/shared/components/animated_background.dart';
 import 'package:memory_game/shared/components/home_page_button.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,26 +22,28 @@ class HomePage extends StatelessWidget {
         builder: (_, state) {
           return BlocBuilder<MatcherBloc, MatcherState>(
             builder: (_, state) {
-              return Center(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: HomePageButton(buttonText: 'Matcher', onPressed: () {
-                        context.read<MatcherBloc>().add(const InitialiseMatcherGameEvent(initialDifficulty));
-                        Navigator.of(context).pushNamed('/matcher');
-                      }),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: HomePageButton(buttonText: 'Range', onPressed: () {
-                        context.read<RangeBloc>().add(InitialiseRangeGameEvent());
-                        Navigator.of(context).pushNamed('/range');
-                      }),
-                    )
-                  ],
+              return AnimatedBackground(
+                child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: HomePageButton(buttonText: 'Matcher', onPressed: () {
+                          context.read<MatcherBloc>().add(const InitialiseMatcherGameEvent(initialDifficulty));
+                          Navigator.of(context).pushNamed('/matcher');
+                        }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: HomePageButton(buttonText: 'Range', onPressed: () {
+                          context.read<RangeBloc>().add(InitialiseRangeGameEvent());
+                          Navigator.of(context).pushNamed('/range');
+                        }),
+                      )
+                    ],
+                  ),
                 ),
               );
             },
